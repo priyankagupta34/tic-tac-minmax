@@ -3,18 +3,13 @@ import { BOT, USER } from "../constant";
 export function botLogic(board) {
   if (board.indexOf(null) === -1) return;
   return new Promise((resolve) => {
-    // let random = Math.floor(Math.random() * 9);
-    // while (board[random]) {
-    //   random = Math.floor(Math.random() * 9);
-    // }
     const gh = minMax(board, true);
-    console.log("found", gh);
     setTimeout(() => resolve(gh.index), 300);
   });
 }
 
 function minMax(board, maximizig) {
-  const winner = checkWinner(board);
+  const winner = checkWinner(board).val;
 
   // Base cases
   if (winner === BOT) return { score: 10 };
@@ -65,11 +60,11 @@ export function checkWinner(board) {
   ];
   for (const [a, b, c] of winningCombos) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-      return board[a];
+      return { val: board[a], combo: [a, b, c] };
     }
   }
-  if (board.every((i) => i !== null)) return "Draw";
-  return "Progress";
+  if (board.every((i) => i !== null)) return { val: "Draw" };
+  return { val: "Progress" };
 }
 
 export function Display(state) {

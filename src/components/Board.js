@@ -1,8 +1,8 @@
 import Square from "./Square";
 
-function Board({ board, move, ifWon }) {
+function Board({ board, move, ifWon, ref }) {
   return (
-    <div className="board">
+    <div className="board" ref={ref}>
       {board.map((val, i) => (
         <Square
           player={val}
